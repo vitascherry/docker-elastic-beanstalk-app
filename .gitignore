@@ -24,12 +24,13 @@ hs_err_pid*
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
+/films-service-mysql/target
 /dist
 /tmp
 /out-tsc
 
 # dependencies
-/node_modules
+/films-service-mysql/node_modules
 
 # IDEs and editors
 /.idea

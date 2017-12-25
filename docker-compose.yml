@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+  db:
+    restart: always
+    image: blackcherry/films-mysql-db
+    volumes:
+       - mysql-data:/var/lib/mysql/
+    networks:
+      - private-network
+    environment:
+       MYSQL_ROOT_PASSWORD: newpassword
+    ports:
+      - "3306:3306"
+  service:
+    depends_on:
+      - db
+    restart: always
+    image: blackcherry/films-service-jpa:0.0.4-SNAPSHOT
+    networks:
+      - private-network
+    ports:
+      - "80:8080"
+      
+volumes:
+  mysql-data:
+  
+networks:
+  private-network:

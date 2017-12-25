@@ -1,0 +1,16 @@
+films-mysql-db:
+    cpu_shares: 100
+    mem_limit: 262144000
+    image: blackcherry/films-mysql-db
+    environment:
+       MYSQL_ROOT_PASSWORD: newpassword
+    ports:
+      - "3306:3306"
+films-service:
+    cpu_shares: 100
+    mem_limit: 26214400
+    image: blackcherry/films-service-jpa:0.0.1-SNAPSHOT
+    links:
+      - films-mysql-db
+    ports:
+      - "8080:8080"

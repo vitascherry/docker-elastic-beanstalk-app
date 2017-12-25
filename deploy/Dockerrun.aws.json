@@ -1,0 +1,58 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
+    {
+      "name": "mysql-data",
+      "host": {
+        "sourcePath": "/var/app/current/datadir"
+      }
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "name": "films_db_1",
+      "image": "blackcherry/films-mysql-db",
+      "environment": [
+        {
+          "name": "MYSQL_ROOT_PASSWORD",
+          "value": "newpassword"
+        }
+      ],
+	  "portMappings": [
+        {
+          "hostPort": 3306,
+          "containerPort": 3306
+        }
+      ],
+      "essential": true,
+      "memory": 256,
+      "mountPoints": [
+        {
+          "sourceVolume": "mysql-data",
+          "containerPath": "/var/lib/mysql"
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "image": "blackcherry/films-service-jpa:0.0.4-SNAPSHOT",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080
+        }
+      ],
+      "links": [
+        "films_db_1"
+      ],
+	  "mountPoints": [
+        {
+          "sourceVolume": "awseb-logs-service",
+          "containerPath": "/tmp"
+        }
+	  ]
+    }
+  ]
+}
